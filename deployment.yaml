@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: app-demo
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: app-demo
+  template:
+    metadata:
+      labels:
+        app: app-demo
+    spec:
+      containers:
+      - name: app
+        image: siddharth67/app:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3311
+        readinessProbe:
+           httpGet:
+             path: /app
+             port: 3311
+           initialDelaySeconds: 1
+           periodSeconds: 2
+           failureThreshold: 5 
